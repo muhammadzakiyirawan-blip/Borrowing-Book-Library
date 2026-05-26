@@ -1,6 +1,14 @@
 // Global JS logic (e.g. sidebar navigation, global event listeners)
 
+// --- Auth Guard ---
+if (!window.location.pathname.includes('auth.html')) {
+    if (!localStorage.getItem('pustakaflow_user')) {
+        window.location.href = 'auth.html';
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+    // --- Profile Dropdown Toggle ---
     const profileBtn = document.getElementById('profileToggleBtn');
     const profileDropdown = document.getElementById('profileDropdown');
 
@@ -18,4 +26,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // --- Logout Logic ---
+    const logoutBtns = document.querySelectorAll('.logout-btn');
+    logoutBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('pustakaflow_user');
+            window.location.href = 'auth.html';
+        });
+    });
 });
